@@ -1,4 +1,4 @@
-name: Build Frosty Discord RPC EXE
+name: Build and Release Frosty Discord RPC EXE
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-windows-exe:
@@ -27,17 +27,36 @@ jobs:
       - name: Package Windows executable
         working-directory: discord-rpc
         run: npx --yes pkg app.js --targets node20-win-x64 --output FrostyDiscordRPC.exe
-      - name: Include launcher and setup notes
+      - name: Prepare release files
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path dist | Out-Null
           Copy-Item discord-rpc/FrostyDiscordRPC.exe dist/
           Copy-Item discord-rpc/README.md dist/
-          Set-Content -Path dist/START-HERE.txt -Value @('Frosty Discord Rich Presence','', '1. Install and open the Discord desktop app.', '2. Double-click FrostyDiscordRPC.exe.', '3. Keep the console window open while the status is active.', '4. Type p for Watching Frosty, a for Paused, r to reset the timer, or q to quit.', '', 'This executable uses the configured Discord Application ID. It is not digitally signed.', 'If Windows SmartScreen warns you, only run it if you trust this build and its source repository.')
-      - name: Upload executable artifact
+          Set-Content -Path dist/START-HERE.txt -Value @('Frosty Discord Rich Presence','', '1. Install and open the Discord desktop app.', '2. Double-click FrostyDiscordRPC.exe.', '3. Keep the console window open while the status is active.', '4. Type p for Watching Frosty, a for Paused, r to reset the timer, or q to quit.', '', 'This executable is unsigned. Only run it if you trust this source repository.')
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: FrostyDiscordRPC-Windows-x64
           path: dist/
           if-no-files-found: error
           retention-days: 30
+      - name: Publish EXE to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: frosty-rpc-latest
+          name: Frosty Discord RPC (Latest Windows Build)
+          body: |
+            Windows x64 executable for the Frosty 1993 VHS Discord Rich Presence companion.
+
+            **Install:** Download `FrostyDiscordRPC.exe` and `START-HERE.txt` below. Open the Discord desktop app before launching the EXE. Keep its console window open while the status is active.
+
+            Controls: `p` = Watching Frosty, `a` = Paused, `r` = reset timer, `q` = quit.
+
+            Note: This executable is unsigned. Rich Presence uses Discord desktop IPC. Browser playback is not automatically detected.
+          files: |
+            dist/FrostyDiscordRPC.exe
+            dist/START-HERE.txt
+            dist/README.md
+          overwrite_files: true
+          make_latest: true
