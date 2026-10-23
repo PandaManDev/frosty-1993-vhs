@@ -117,6 +117,10 @@
     .player-tools button:disabled { opacity:.45; cursor:not-allowed; }
     .player-tools button.primary { color:#080914; border-color:transparent; background:linear-gradient(110deg,#cbbaff,#a5e7ff); font-weight:750; }
     .player-tools button.primary:hover { filter:brightness(1.08); }
+    .player-tools a.download-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:9px 13px; border-radius:11px; border:1px solid rgba(165,231,255,.35); color:#eafaff; background:linear-gradient(135deg,rgba(78,156,211,.2),rgba(139,92,246,.18)); font:inherit; font-size:13px; font-weight:700; text-decoration:none; transition:background .18s,border-color .18s,transform .18s; }
+    .player-tools a.download-btn:hover { background:linear-gradient(135deg,rgba(78,156,211,.35),rgba(139,92,246,.3)); border-color:rgba(165,231,255,.7); }
+    .player-tools a.download-btn:active { transform:scale(.97); }
+    .player-tools a.download-btn:focus-visible { outline:2px solid var(--ice); outline-offset:3px; }
     video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: min(72vh, 760px); background: #020207; object-fit: contain; }
     .player-tools { display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:12px 5px 2px; }
     .player-tools button { border:1px solid rgba(190,160,255,.28); background:rgba(139,92,246,.12); color:#f8f6ff; border-radius:11px; min-height:40px; padding:9px 13px; font:inherit; font-size:13px; cursor:pointer; transition:background .18s,border-color .18s,transform .18s; }
@@ -242,6 +246,7 @@
             <input class="volume" id="volume" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume">
           </label>
           <button type="button" id="fullscreen-toggle" aria-label="Enter fullscreen">⛶ Fullscreen</button>
+          <a class="download-btn" href="https://archive.org/download/frosty-1993-vhs/Frosty%201993%20VHS.mp4" target="_blank" rel="noopener noreferrer" aria-label="Download Frosty 1993 VHS video">↓ Download</a>
         </div>
         <div class="player-meta">
           <div class="now">
