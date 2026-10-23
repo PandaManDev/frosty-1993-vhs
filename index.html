@@ -21,6 +21,30 @@
       --ice: #a5e7ff;
     }
     * { box-sizing: border-box; }
+    /* Frosty VHS loading screen */
+    #site-loader {
+      position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
+      overflow: hidden; background: radial-gradient(ellipse at 50% 42%, #242044 0%, #100e20 42%, #07070d 100%);
+      opacity: 1; visibility: visible; transition: opacity .65s ease, visibility .65s ease;
+    }
+    #site-loader::before, #site-loader::after {
+      content: ""; position: absolute; width: 55vmax; height: 55vmax; border: 1px solid rgba(165,231,255,.12);
+      border-radius: 50%; animation: loader-orbit 18s linear infinite; pointer-events: none;
+    }
+    #site-loader::after { width: 40vmax; height: 40vmax; border-color: rgba(167,139,250,.18); animation-direction: reverse; }
+    #site-loader.loader-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-card { position: relative; z-index: 1; width: min(88vw, 440px); padding: 34px 26px 30px; text-align: center; }
+    .loader-snowflake { color: #dff9ff; font-size: 22px; text-shadow: 0 0 22px #8edcff; animation: loader-twinkle 2s ease-in-out infinite; }
+    .loader-title { margin: 16px 0 7px; font: italic 900 clamp(46px, 10vw, 76px)/.95 Georgia, serif; letter-spacing: -.07em; text-transform: uppercase; color: #dff8ff; background: linear-gradient(#fff 8%, #a5e7ff 52%, #8d9fea); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 20px rgba(111,201,255,.25)); }
+    .loader-subtitle { color: #d3c9ee; font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+    .loader-caption { margin: 25px 0 12px; color: #aaa4c0; font-size: 12px; }
+    .loader-track { width: min(240px, 80%); height: 3px; margin: 0 auto; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.1); }
+    .loader-track span { display: block; width: 38%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #a78bfa, #a5e7ff); box-shadow: 0 0 16px #a5e7ff; animation: loader-progress 1.3s ease-in-out infinite; }
+    .loader-foot { margin-top: 20px; color: #77728c; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+    @keyframes loader-progress { from { transform: translateX(-110%); } to { transform: translateX(370%); } }
+    @keyframes loader-orbit { to { transform: rotate(360deg); } }
+    @keyframes loader-twinkle { 50% { opacity: .45; transform: scale(.86) rotate(15deg); } }
+    @media (prefers-reduced-motion: reduce) { #site-loader, #site-loader::before, #site-loader::after, .loader-snowflake, .loader-track span { animation: none; transition: none; } }
     html { scroll-behavior: smooth; }
     ::selection { color:#090811; background:#a5e7ff; }
     body {
@@ -281,6 +305,19 @@
 
   <footer>FROSTY · 1993 VHS · WINTER ARCHIVE</footer>
   <script>
+    // Keep the intro screen visible briefly, but never trap visitors if loading is slow.
+    const siteLoader = document.getElementById('site-loader');
+    const loaderCaption = document.getElementById('loader-caption');
+    let loaderDismissed = false;
+    const dismissLoader = () => {
+      if (loaderDismissed) return;
+      loaderDismissed = true;
+      loaderCaption.textContent = 'Ready to watch';
+      window.setTimeout(() => siteLoader.classList.add('loader-hidden'), 450);
+      window.setTimeout(() => siteLoader.remove(), 1200);
+    };
+    window.addEventListener('load', () => window.setTimeout(dismissLoader, 850), { once: true });
+    window.setTimeout(dismissLoader, 4500);
     const video = document.getElementById('frosty-video');
     const error = document.getElementById('video-error');
     const playToggle = document.getElementById('play-toggle');
