@@ -20,13 +20,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
       - name: Install dependencies
         working-directory: discord-rpc
         run: npm install
       - name: Package Windows executable
         working-directory: discord-rpc
-        run: npx --yes pkg app.js --targets node20-win-x64 --output FrostyDiscordRPC.exe
+        run: npx --yes pkg app.js --targets node18-win-x64 --output FrostyDiscordRPC.exe
       - name: Prepare release files
         shell: pwsh
         run: |
