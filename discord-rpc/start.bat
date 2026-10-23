@@ -2,9 +2,14 @@
 cd /d "%~dp0"
 echo Frosty Discord Rich Presence
 if not exist .env (
-  echo Missing .env file. Copy .env.example to .env and add your Discord Application ID.
-  pause
-  exit /b 1
+  if exist .env.example (
+    copy /y .env.example .env >nul
+    echo Created .env using the configured Discord Application ID.
+  ) else (
+    echo Missing .env.example configuration file.
+    pause
+    exit /b 1
+  )
 )
 for /f "usebackq tokens=1,* delims==" %%A in (".env") do if "%%A"=="DISCORD_CLIENT_ID" set DISCORD_CLIENT_ID=%%B
 if not defined DISCORD_CLIENT_ID (
