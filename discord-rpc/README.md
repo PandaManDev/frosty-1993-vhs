@@ -1,23 +1,17 @@
 # Frosty Discord Rich Presence (Windows)
 
-This companion app shows a Frosty-themed status in your Discord profile while it runs. GitHub Pages alone cannot set Discord Rich Presence; this local app uses Discord's desktop IPC.
+This companion app shows a Frosty-themed status on your Discord profile while it runs. It uses Discord's desktop IPC, so the Discord desktop app must be open. Your Application ID is already configured in `.env.example`.
 
-## Setup
+## Start it
 
 1. Install **Node.js LTS** from https://nodejs.org/ if it is not already installed.
-2. Open https://discord.com/developers/applications and click **New Application**. Name it `Frosty 1993 VHS`.
-3. Open the app's **General Information** page and copy the **Application ID**.
-4. In this folder, copy `.env.example` to a new file named `.env`.
-5. Replace the example value with your Application ID:
-   ```
-   DISCORD_CLIENT_ID=YOUR_APPLICATION_ID
-   ```
-6. Optional: in the Developer Portal, open **Rich Presence → Art Assets** and upload an image with the key `frosty`. Until you upload it, the large image may not appear.
-7. Make sure the Discord **desktop app** is open and you're logged in.
-8. Double-click `start.bat`. The first run installs the required package.
-9. Keep the terminal open while you want the status active.
+2. Download the project from https://github.com/PandaManDev/frosty-1993-vhs/archive/refs/heads/main.zip and extract it.
+3. Open the `discord-rpc` folder.
+4. Make sure the Discord **desktop app** is open and you're logged in.
+5. Double-click `start.bat`. It creates `.env` automatically and installs the required package on first launch.
+6. Keep the terminal open while you want the status active.
 
-## Commands in the terminal
+## Terminal controls
 
 - `p` — Watching Frosty
 - `a` — Paused / taking a break
@@ -26,8 +20,12 @@ This companion app shows a Frosty-themed status in your Discord profile while it
 
 The presence includes a **Watch Frosty** button linking to https://pandamandev.github.io/frosty-1993-vhs/.
 
+## Optional artwork
+
+In the Discord Developer Portal, open your application at https://discord.com/developers/applications, go to **Rich Presence → Art Assets**, and upload an image using the key `frosty`. The large image may not appear until this asset is uploaded.
+
 ## Notes
 
-- This first version is manually controlled: it does not yet detect play/pause state in the browser automatically.
-- Use a Discord application you own. Never share your Discord account token.
-- If Discord doesn't show the presence, restart the desktop app and this companion.
+- This version is manually controlled; it does not automatically detect browser play/pause state yet.
+- If Discord doesn't show the presence, restart the Discord desktop app and the companion.
+- Never share your Discord account token.
