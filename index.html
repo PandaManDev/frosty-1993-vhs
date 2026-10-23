@@ -58,6 +58,54 @@
     .eyebrow { color: var(--ice); font-size: 11px; letter-spacing: .22em; font-weight: 800; text-transform: uppercase; }
     h1 { font-size: clamp(34px, 6vw, 62px); line-height: 1.04; letter-spacing: -.055em; margin: 13px 0 14px; }
     h1 span { background: linear-gradient(100deg, #fff 12%, #c8b5ff 55%, #a5e7ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .movie-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 2vw, 18px);
+      margin: 18px auto 12px;
+      padding: 7px 18px 12px;
+      position: relative;
+      isolation: isolate;
+    }
+    .movie-logo::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 10% 0 0;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(111, 201, 255, .2), transparent 70%);
+      filter: blur(12px);
+    }
+    .logo-snowman {
+      width: clamp(54px, 9vw, 88px);
+      height: auto;
+      flex: 0 0 auto;
+      filter: drop-shadow(0 5px 16px rgba(115, 210, 255, .3));
+    }
+    .logo-type {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(48px, 10vw, 104px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: -.075em;
+      font-style: italic;
+      background: linear-gradient(180deg, #fff 0%, #e7faff 32%, #8bd9ff 61%, #5c8dd9 80%, #f5f9ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232, 249, 255, .45);
+      filter: drop-shadow(0 4px 0 #304e8b) drop-shadow(0 8px 16px rgba(70, 166, 255, .3));
+      text-transform: uppercase;
+    }
+    .logo-snowflake {
+      position: absolute;
+      color: #dff9ff;
+      font-size: clamp(14px, 2vw, 22px);
+      text-shadow: 0 0 12px #8edcff;
+    }
+    .logo-snowflake.one { top: 0; right: 1%; }
+    .logo-snowflake.two { bottom: 4px; left: 1%; font-size: 14px; }
     .intro p { margin: 0; color: var(--muted); font-size: clamp(14px, 2vw, 17px); line-height: 1.7; }
     .player-shell {
       position: relative; padding: 10px; border-radius: 24px;
@@ -112,7 +160,36 @@
   <main>
     <section class="intro">
       <div class="eyebrow">A classic on tape</div>
-      <h1><span>Frosty — 1993 VHS</span></h1>
+      <div class="movie-logo" role="img" aria-label="Frosty movie-inspired logo">
+        <svg class="logo-snowman" viewBox="0 0 100 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="snow" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset=".55" stop-color="#b9edff"/>
+              <stop offset="1" stop-color="#6ea9e8"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="50" cy="102" rx="31" ry="7" fill="#7bd7ff" opacity=".25"/>
+          <circle cx="50" cy="78" r="25" fill="url(#snow)" stroke="#e9fbff" stroke-width="2"/>
+          <circle cx="50" cy="42" r="20" fill="url(#snow)" stroke="#e9fbff" stroke-width="2"/>
+          <circle cx="43" cy="40" r="2.8" fill="#18304d"/>
+          <circle cx="58" cy="40" r="2.8" fill="#18304d"/>
+          <path d="M47 47 L64 51 L47 54 Z" fill="#f58c42" stroke="#d36a2b" stroke-width="1"/>
+          <path d="M43 59 Q50 64 58 59" fill="none" stroke="#294866" stroke-width="2" stroke-linecap="round"/>
+          <path d="M31 22 Q49 15 68 23 L65 29 Q49 25 34 29 Z" fill="#b83b52"/>
+          <path d="M38 20 L40 7 Q51 2 63 9 L67 23 Z" fill="#24364e" stroke="#dff8ff" stroke-width="2"/>
+          <path d="M34 27 Q50 22 67 27" fill="none" stroke="#f5fbff" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="38" cy="73" r="3" fill="#c34b65"/>
+          <circle cx="50" cy="82" r="3" fill="#c34b65"/>
+          <circle cx="62" cy="73" r="3" fill="#c34b65"/>
+          <path d="M28 70 L10 59 M72 70 L90 59" stroke="#8bd9ff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M10 59 L7 48 M10 59 L20 53 M90 59 L93 48 M90 59 L80 53" stroke="#8bd9ff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-type">Frosty</span>
+        <span class="logo-snowflake one" aria-hidden="true">✳</span>
+        <span class="logo-snowflake two" aria-hidden="true">❄</span>
+      </div>
+      <h1 style="font-size:clamp(15px,2vw,20px);letter-spacing:.18em;margin:4px 0 14px;text-transform:uppercase"><span>1993 VHS</span></h1>
       <p>Settle in and enjoy this archived recording in a cozy, retro-inspired viewing room.</p>
     </section>
 
