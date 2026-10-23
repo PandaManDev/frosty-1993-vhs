@@ -1,0 +1,43 @@
+name: Build Frosty Discord RPC EXE
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'discord-rpc/**'
+      - '.github/workflows/build-frosty-rpc-exe.yml'
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        working-directory: discord-rpc
+        run: npm install
+      - name: Package Windows executable
+        working-directory: discord-rpc
+        run: npx --yes pkg app.js --targets node20-win-x64 --output FrostyDiscordRPC.exe
+      - name: Include launcher and setup notes
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item discord-rpc/FrostyDiscordRPC.exe dist/
+          Copy-Item discord-rpc/README.md dist/
+          Set-Content -Path dist/START-HERE.txt -Value @('Frosty Discord Rich Presence','', '1. Install and open the Discord desktop app.', '2. Double-click FrostyDiscordRPC.exe.', '3. Keep the console window open while the status is active.', '4. Type p for Watching Frosty, a for Paused, r to reset the timer, or q to quit.', '', 'This executable uses the configured Discord Application ID. It is not digitally signed.', 'If Windows SmartScreen warns you, only run it if you trust this build and its source repository.')
+      - name: Upload executable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrostyDiscordRPC-Windows-x64
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
