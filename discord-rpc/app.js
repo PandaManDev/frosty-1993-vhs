@@ -1,14 +1,15 @@
 const RPC = require('discord-rpc');
 const readline = require('node:readline');
 
-const CLIENT_ID = process.env.DISCORD_CLIENT_ID;
+// Application IDs are public identifiers, not account secrets.
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID || '1563282447569785003';
 const SITE_URL = 'https://pandamandev.github.io/frosty-1993-vhs/';
 const rpc = new RPC.Client({ transport: 'ipc' });
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
 if (!CLIENT_ID || CLIENT_ID === 'PASTE_YOUR_DISCORD_APPLICATION_ID_HERE') {
-  console.error('\nSetup needed: create a Discord application and set DISCORD_CLIENT_ID in .env.');
-  console.error('See README.md for step-by-step instructions.\n');
+  console.error('\nSetup needed: set DISCORD_CLIENT_ID in .env.');
+  console.error('See README.md for setup instructions.\n');
   process.exit(1);
 }
 
