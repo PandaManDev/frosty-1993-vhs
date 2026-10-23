@@ -7,6 +7,17 @@ const SITE_URL = 'https://pandamandev.github.io/frosty-1993-vhs/';
 const rpc = new RPC.Client({ transport: 'ipc' });
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
+function showStartupScreen() {
+  console.clear();
+  console.log('');
+  console.log('  ❄  F R O S T Y   D I S C O R D   R P C');
+  console.log('  ───────────────────────────────────────');
+  console.log('       1993 VHS  •  WINTER ARCHIVE');
+  console.log('');
+  console.log('  Connecting to Discord desktop...');
+  console.log('');
+}
+
 if (!CLIENT_ID || CLIENT_ID === 'PASTE_YOUR_DISCORD_APPLICATION_ID_HERE') {
   console.error('\nSetup needed: set DISCORD_CLIENT_ID in .env.');
   console.error('See README.md for setup instructions.\n');
@@ -15,6 +26,7 @@ if (!CLIENT_ID || CLIENT_ID === 'PASTE_YOUR_DISCORD_APPLICATION_ID_HERE') {
 
 RPC.register(CLIENT_ID);
 let startedAt = Date.now();
+showStartupScreen();
 
 async function setPresence(details = 'Classic holiday viewing') {
   try {
