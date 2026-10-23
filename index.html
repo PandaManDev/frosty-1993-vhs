@@ -121,6 +121,12 @@
     .player-tools a.download-btn:hover { background:linear-gradient(135deg,rgba(78,156,211,.35),rgba(139,92,246,.3)); border-color:rgba(165,231,255,.7); }
     .player-tools a.download-btn:active { transform:scale(.97); }
     .player-tools a.download-btn:focus-visible { outline:2px solid var(--ice); outline-offset:3px; }
+    .player-tools button.utility { border-color:rgba(255,255,255,.12); background:rgba(255,255,255,.045); }
+    body.theater main { width:min(1500px,100%); }
+    body.theater .player-shell { box-shadow:0 0 0 1px rgba(165,231,255,.1),0 35px 120px rgba(0,0,0,.55),0 0 90px rgba(139,92,246,.18); }
+    body.theater .below { display:none; }
+    body.theater .intro { margin-bottom:18px; }
+    .shortcut-note { color:#8d879e; font-size:11px; text-align:center; margin:12px 0 0; }
     video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: min(72vh, 760px); background: #020207; object-fit: contain; }
     .player-tools { display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:12px 5px 2px; }
     .player-tools button { border:1px solid rgba(190,160,255,.28); background:rgba(139,92,246,.12); color:#f8f6ff; border-radius:11px; min-height:40px; padding:9px 13px; font:inherit; font-size:13px; cursor:pointer; transition:background .18s,border-color .18s,transform .18s; }
@@ -246,6 +252,8 @@
             <input class="volume" id="volume" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume">
           </label>
           <button type="button" id="fullscreen-toggle" aria-label="Enter fullscreen">⛶ Fullscreen</button>
+          <button type="button" class="utility" id="theater-toggle" aria-pressed="false">▣ Theater</button>
+          <button type="button" class="utility" id="share-toggle">↗ Share</button>
           <a class="download-btn" href="https://archive.org/download/frosty-1993-vhs/Frosty%201993%20VHS.mp4" target="_blank" rel="noopener noreferrer" aria-label="Download Frosty 1993 VHS video">↓ Download</a>
         </div>
         <div class="player-meta">
@@ -259,6 +267,7 @@
           <span class="quality">MP4 · VIDEO</span>
         </div>
       </div>
+      <p class="shortcut-note">Tip: use your video controls, or switch to Theater for a distraction-free view.</p>
       <p id="video-error" class="error">The video could not be loaded from its current source. Try opening the <a href="https://archive.org/details/frosty-1993-vhs" target="_blank" rel="noopener noreferrer">Internet Archive item page</a>.</p>
     </section>
 
@@ -281,6 +290,22 @@
     const volume = document.getElementById('volume');
     const playbackStatus = document.getElementById('playback-status');
     const playbackHint = document.getElementById('playback-hint');
+    const theaterToggle = document.getElementById('theater-toggle');
+    theaterToggle.addEventListener('click', () => {
+      const enabled = document.body.classList.toggle('theater');
+      theaterToggle.setAttribute('aria-pressed', String(enabled));
+      theaterToggle.textContent = enabled ? '▣ Exit theater' : '▣ Theater';
+    });
+    document.getElementById('share-toggle').addEventListener('click', async () => {
+      const shareData = { title: 'Frosty — 1993 VHS', text: 'Watch Frosty the Snowman — 1993 VHS', url: window.location.href };
+      try {
+        if (navigator.share) await navigator.share(shareData);
+        else if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(window.location.href);
+          document.getElementById('share-toggle').textContent = '✓ Link copied';
+        } else window.prompt('Copy this link to share Frosty:', window.location.href);
+      } catch (err) { if (err.name !== 'AbortError') window.prompt('Copy this link to share Frosty:', window.location.href); }
+    });
     const formatTime = value => {
       if (!Number.isFinite(value) || value < 0) return '0:00';
       const minutes = Math.floor(value / 60);
